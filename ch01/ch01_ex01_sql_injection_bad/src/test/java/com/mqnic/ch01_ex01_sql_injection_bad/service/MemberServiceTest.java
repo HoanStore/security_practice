@@ -15,7 +15,7 @@ public class MemberServiceTest {
 
     @Test
     public void findByIdTest() {
-        Member member = memberSerivce.findById(1L);
+        Member member = memberSerivce.findById("1");
         log.info(member.toString());
     }
 }
