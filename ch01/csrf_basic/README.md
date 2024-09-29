@@ -22,3 +22,49 @@
 
 - csrf 공격을 시뮬레이션 해 보겠음.
 - csrf 토큰을 사용해서 csrf 공격 방어할 것임.
+
+
+```angular2html
+
+1. csrf 설정 비활성화 - 스프링 시큐리티에서는 csrf 설정이 자동으로 활성화 되어 있음.
+
+.csrf(csrf -> csrf
+.disable() // CSRF 보호를 활성화하려면 삭제 가능
+);
+
+@Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
+                .authorizeRequests(authorize -> authorize
+                        .requestMatchers("/transfer").authenticated()
+                        .anyRequest().permitAll()
+                )
+                .formLogin(form -> form
+                        .loginPage("/login")
+                        .permitAll()
+                )
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/login?logout")
+                        .invalidateHttpSession(true)
+                        .clearAuthentication(true)
+                        .permitAll()
+                )
+                .csrf(csrf -> csrf
+                        .disable() // CSRF 보호를 활성화하려면 삭제 가능
+                );
+        return http.build();
+    }
+
+2. /resources/templates/transfer.html에서 아래 부분 주석 처리 - 주석 처리하지 않으면 렌더링 오류남. 
+<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
+3. 로그인 - (id: user, pwd : password)
+
+4. 공격 페이지 실행
+- 경로 : /resources/templates/CsrfAttackPage.html
+- /transfer이 자동으로 실행됨! 
+- 99999이 이체됨
+
+
+```

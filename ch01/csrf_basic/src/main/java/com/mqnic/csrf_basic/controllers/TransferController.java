@@ -10,7 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class TransferController {
 
     @GetMapping("/transfer")
-    public String showTransferForm() {
+    public String showTransferWeakForm() {
         return "transfer";
     }
 
@@ -23,6 +23,8 @@ public class TransferController {
         System.out.println("Successfully transferred " + amount);
         return mav;
     }
+
+
 
 
 }

